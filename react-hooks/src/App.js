@@ -1,35 +1,22 @@
-import { useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 
-const heavyWork = () => {
-  console.log("엄청 무거운 작업!!!");
-  return ['홍길동', '김민수'];
-}
+const App = () => {
+  const inputRef = useRef();
 
-function App() {
-  // 맨 처음 렌더링 될 때만 함수 호출
-  const [names, setNames] = useState(() => {
-    return heavyWork();
-  });
-  const [input, setInput] = useState('');
+  useEffect(() => {
+    // console.log(inputRef);
+    inputRef.current.focus();
+  }, []);
 
-  const handleInputChange = (e) => {
-    setInput(e.target.value);
-  };
-
-  const handleUpload = () => {
-    setNames((prevState) => {
-      console.log('이전 state: ', prevState);
-      return [input, ...prevState];
-    });
+  const login = () => {
+    alert(`환영합니다 ${inputRef.current.value}!`)
+    inputRef.current.focus();
   };
 
   return (
     <div>
-      <input type="text" value={input} onChange={handleInputChange}/>
-      <button onClick={handleUpload}>Upload</button>
-      {names.map((name, idx) => {
-        return <p key={idx}>{name}</p>;
-      })}
+      <input ref={inputRef} type="text" placeholder="username" />
+      <button onClick={login}>로그인</button>
     </div>
   );
 }
