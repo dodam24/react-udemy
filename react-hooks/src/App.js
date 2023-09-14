@@ -1,25 +1,18 @@
-import React, { useCallback, useState } from "react";
-import Child from "./Child";
+import { useFetch } from "./useFetch";
+
+const baseUrl = "https://jsonplaceholder.typicode.com";
 
 function App() {
-  const [parentAge, setParentAge] = useState(0);
-
-  const incrementParentAge = () => {
-    setParentAge(parentAge + 1);
-  };
-
-  console.log("👨‍👩‍👧 부모 컴포넌트가 렌더링 되었습니다");
-
-  const tellMe = useCallback(() => {
-    console.log("길동아 사랑해💕");
-  }, []);
+  const { data: userData } = useFetch(baseUrl, 'users');
+  const {data: postData } = useFetch(baseUrl, 'posts');
 
   return (
-    <div style={{ border: "2px solid navy", padding: "10px" }}>
-      <h1>👨‍👩‍👧 부모</h1>
-      <p>age: {parentAge}</p>
-      <button onClick={incrementParentAge}>부모 나이 증가</button>
-      <Child name={"홍길동"} tellMe={tellMe} />
+    <div>
+      <h1>User</h1>
+      {userData && <pre>{JSON.stringify(userData[0], null, 2)}</pre>}
+      <h1>Post</h1>
+      {postData && <pre>{JSON.stringify(postData[0], null, 2)}</pre>}
+      <h1>Todo</h1>
     </div>
   );
 }
